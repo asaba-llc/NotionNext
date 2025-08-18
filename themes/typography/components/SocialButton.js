@@ -113,7 +113,7 @@ const SocialButton = () => {
             target='_blank'
             rel='noreferrer'
             title={'threads'}
-            href={siteConfig('IDCARD')}>
+            href={siteConfig('CONTACT_IDCARD')}>
             <i className='fa-regular fa-address-card hover:scale-125 duration-150' />
           </a>
         )} 
