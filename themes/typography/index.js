@@ -132,7 +132,7 @@ const LayoutBase = props => {
 const LayoutIndex = props => {
   // 首页改为展示固定图片，右侧公司信息与菜单保持不变
   return (
-    <div className='w-full h-full flex items-center justify-center'>
+    <div className='w-full min-h-[calc(100vh-9rem)] flex items-center justify-center'>
       {(() => {
         const rawSubPath = siteConfig('SUB_PATH', '') || ''
         const isAbsoluteUrl =
