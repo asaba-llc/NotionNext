@@ -79,9 +79,10 @@ const LayoutBase = props => {
           <Image
            src="/images/left-photo.jpg"   // 照片路径，放在 public/images/ 下
            alt="浅羽合同会社"
-           width={300} 
-           height={400} 
-           className="rounded-lg shadow-lg object-cover"
+           width={0}  // 自动
+           height={0} // 自动
+           sizes="100vw"
+           className="h-auto w-auto"
           />
          </div>
           <div className='overflow-hidden md:mt-20 flex-1 '>
