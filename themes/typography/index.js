@@ -135,7 +135,7 @@ const LayoutIndex = props => {
     <div className='w-full h-full flex items-center justify-center'>
       <img
         src='/images/homepage.webp'
-        alt='homepage-hero'
+        alt='homepage'
         className='object-contain max-h-[80vh] w-auto'
       />
     </div>
