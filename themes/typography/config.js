@@ -13,5 +13,6 @@ const CONFIG = {
   TYPOGRAPHY_MENU_CATEGORY: true, // 显示分类
   TYPOGRAPHY_MENU_TAG: true, // 显示标签
   TYPOGRAPHY_MENU_ARCHIVE: true, // 显示归档
+  CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'ri@asaba.llc', // 邮箱地址 例如mail@tangly1024.com
 }
 export default CONFIG
