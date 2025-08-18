@@ -133,11 +133,17 @@ const LayoutIndex = props => {
   // 首页改为展示固定图片，右侧公司信息与菜单保持不变
   return (
     <div className='w-full h-full flex items-center justify-center'>
-      <img
-        src='/images/homepage.webp'
-        alt='homepage'
-        className='object-contain max-h-[80vh] w-auto'
-      />
+      {(() => {
+        const SUB_PATH = siteConfig('SUB_PATH', '') || ''
+        const heroSrc = `${SUB_PATH}/images/homepage.webp`
+        return (
+          <img
+            src={heroSrc}
+            alt='homepage'
+            className='object-contain max-h-[80vh] w-auto'
+          />
+        )
+      })()}
     </div>
   )
 }
