@@ -134,9 +134,10 @@ const LayoutIndex = props => {
   return (
     <div className='w-full h-full flex items-center justify-center'>
       {(() => {
-        const SUB_PATH = siteConfig('SUB_PATH', '') || ''
-        const heroWebp = `${SUB_PATH}/images/homepage.webp`
-        const heroJpg = `${SUB_PATH}/images/homepage.jpg`
+        const subPath = siteConfig('SUB_PATH', '') || ''
+        const basePath = subPath ? `/${subPath}` : ''
+        const heroWebp = `${basePath}/images/homepage.webp`
+        const heroJpg = `${basePath}/images/homepage.jpg`
         return (
           <picture>
             <source srcSet={heroWebp} type='image/webp' />
