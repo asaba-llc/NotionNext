@@ -12,8 +12,6 @@ import BlogPostBar from './components/BlogPostBar'
 import CONFIG from './config'
 import { Style } from './style'
 import Catalog from './components/Catalog'
-import Image from 'next/image'
-
 
 const AlgoliaSearchModal = dynamic(
   () => import('@/components/AlgoliaSearchModal'),
@@ -136,8 +134,12 @@ const LayoutIndex = props => {
   return (
     <div className='w-full h-full flex items-center justify-center'>
       {(() => {
-        const subPath = siteConfig('SUB_PATH', '') || ''
-        const basePath = subPath ? `/${subPath}` : ''
+        const rawSubPath = siteConfig('SUB_PATH', '') || ''
+        const normalizedSubPath = (typeof rawSubPath === 'string'
+          ? rawSubPath
+          : ''
+        ).replace(/^\/+/g, '').replace(/\/+$/g, '')
+        const basePath = normalizedSubPath ? `/${normalizedSubPath}` : ''
         const heroWebp = `${basePath}/images/homepage.webp`
         const heroJpg = `${basePath}/images/homepage.jpg`
         return (
