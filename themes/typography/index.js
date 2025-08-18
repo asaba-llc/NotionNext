@@ -1,124 +1,113 @@
-import { AdSlot } from '@/components/GoogleAdsense'
-import replaceSearchResult from '@/components/Mark'
-import NotionPage from '@/components/NotionPage'
-import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
-import { isBrowser } from '@/lib/utils'
-import dynamic from 'next/dynamic'
-import SmartLink from '@/components/SmartLink'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useRef } from 'react'
-import BlogPostBar from './components/BlogPostBar'
-import CONFIG from './config'
-import { Style } from './style'
-import Catalog from './components/Catalog'
 import Image from 'next/image'
+import { useGlobal } from '@/lib/global'
+import { siteConfig } from '@/lib/config'
+import dynamic from 'next/dynamic'
+import TopBar from './components/TopBar'
+import NavBar from './components/NavBar'
+import Footer from './components/Footer'
+import JumpToTopButton from './components/JumpToTopButton'
+import { Style } from './style'
+import { AdSlot } from '@/components/GoogleAdsense'
 
 const AlgoliaSearchModal = dynamic(
   () => import('@/components/AlgoliaSearchModal'),
   { ssr: false }
 )
 
-// 主题组件
+const ThemeGlobalSimple = React.createContext()
+export const useSimpleGlobal = () => React.useContext(ThemeGlobalSimple)
 
-const BlogArchiveItem = dynamic(() => import('./components/BlogArchiveItem'), {
-  ssr: false
-})
-const ArticleLock = dynamic(() => import('./components/ArticleLock'), {
-  ssr: false
-})
-const ArticleInfo = dynamic(() => import('./components/ArticleInfo'), {
-  ssr: false
-})
-const Comment = dynamic(() => import('@/components/Comment'), { ssr: false })
-const ArticleAround = dynamic(() => import('./components/ArticleAround'), {
-  ssr: false
-})
-const TopBar = dynamic(() => import('./components/TopBar'), { ssr: false })
-const NavBar = dynamic(() => import('./components/NavBar'), { ssr: false })
-const JumpToTopButton = dynamic(() => import('./components/JumpToTopButton'), {
-  ssr: false
-})
-const Footer = dynamic(() => import('./components/Footer'), { ssr: false })
-const WWAds = dynamic(() => import('@/components/WWAds'), { ssr: false })
-const BlogListPage = dynamic(() => import('./components/BlogListPage'), {
-  ssr: false
-})
-const RecommendPosts = dynamic(() => import('./components/RecommendPosts'), {
-  ssr: false
-})
-
-// 主题全局状态
-const ThemeGlobalSimple = createContext()
-export const useSimpleGlobal = () => useContext(ThemeGlobalSimple)
-
-/**
- * 基础布局
- *
- * @param {*} props
- * @returns
- */
 const LayoutBase = props => {
   const { children } = props
-  const { onLoading, fullWidth } = useGlobal()
-  // const onLoading = true
+  const { onLoading } = useGlobal()
+  const router = useRouter()
+  const isHome = router.pathname === '/'
+
+  const titleRef = useRef<HTMLDivElement>(null)
+  const [imageTop, setImageTop] = useState(0)
   const searchModal = useRef(null)
+
+  // 首页图片顶部与标题顶部对齐
+  useEffect(() => {
+    if (isHome && titleRef.current) {
+      const rect = titleRef.current.getBoundingClientRect()
+      setImageTop(rect.top)
+    }
+  }, [isHome])
 
   return (
     <ThemeGlobalSimple.Provider value={{ searchModal }}>
       <div
-        id='theme-typography'
-        className={`${siteConfig('FONT_STYLE')} font-typography h-screen flex flex-col dark:text-gray-300 bg-white dark:bg-[#232222] overflow-hidden`}>
+        id="theme-typography"
+        className={`${siteConfig('FONT_STYLE')} font-typography h-screen flex flex-col dark:text-gray-300 bg-white dark:bg-[#232222] overflow-hidden`}
+      >
         <Style />
+        {siteConfig('SIMPLE_TOP_BAR', null) && <TopBar {...props} />}
 
-        {siteConfig('SIMPLE_TOP_BAR', null, CONFIG) && <TopBar {...props} />}
-
-        <div className='flex flex-1 mx-auto overflow-hidden py-8 md:p-0 md:max-w-7xl md:px-24 w-screen'>
-         {/* 主体 - 使用 flex 布局 */}
-         {/* 左侧固定照片 */}
-        <div className="w-full">
-          <Image
-           src="/images/left-photo.jpg"   // 照片路径，放在 public/images/ 下
-           alt="浅羽合同会社"
-           width={0}  // 自动
-           height={0} // 自动
-           sizes="100vw"
-           className="w-full h-auto object-contain"
-          />
-         </div>
-          <div className='overflow-hidden md:mt-20 flex-1 '>
-            {/* 左侧内容区域 - 可滚动 */}
+        <div className="flex flex-1 mx-auto overflow-hidden py-8 md:p-0 md:max-w-7xl md:px-24 w-screen">
+          
+          {/* 左侧固定图片 - 仅首页显示 */}
+          {isHome && (
             <div
-              id='container-inner'
-              className='h-full w-full md:px-24 overflow-y-auto scroll-hidden relative'>
-              {/* 移动端导航 - 显示在顶部 */}
-              <div className='md:hidden'>
-                <NavBar {...props} />
+              className="hidden md:block fixed"
+              style={{
+                top: `${imageTop}px`,
+                right: '20px',
+                width: '300px',
+              }}
+            >
+              <Image
+                src="/images/left-photo.jpg"
+                alt="浅羽合同会社"
+                width={300}
+                height={0}
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          )}
+
+          {/* 文章区域 */}
+          <div className={`flex-1 overflow-y-auto ${isHome ? 'md:ml-[320px]' : ''}`}>
+            {/* 首页标题（用于对齐图片顶部） */}
+            {isHome && (
+              <div ref={titleRef} className="text-2xl font-bold mb-4">
+                首页标题
               </div>
-              {onLoading ? (
-                // loading 时显示 spinner
-                <div className='flex items-center justify-center min-h-[500px] w-full'>
-                  <div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white'></div>
-                </div>
-              ) : (
-                <>{children}</>
-              )}
-              <AdSlot type='native' />
-              {/* 移动端页脚 - 显示在底部 */}
-              <div className='md:hidden  z-30  '>
-                <Footer {...props} />
+            )}
+
+            {/* 移动端导航 */}
+            <div className="md:hidden">
+              <NavBar {...props} />
+            </div>
+
+            {/* 文章内容或加载动画 */}
+            {onLoading ? (
+              <div className="flex items-center justify-center min-h-[500px] w-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
               </div>
+            ) : (
+              children
+            )}
+
+            <AdSlot type="native" />
+
+            {/* 移动端页脚 */}
+            <div className="md:hidden z-30">
+              <Footer {...props} />
             </div>
           </div>
 
-          {/* 右侧导航和页脚 - 固定不滚动 */}
-          <div className='hidden md:flex md:flex-col md:flex-shrink-0 md:h-[100vh] sticky top-20'>
+          {/* 右侧导航和页脚 - md及以上显示 */}
+          <div className="hidden md:flex md:flex-col md:flex-shrink-0 md:h-[100vh] sticky top-20">
             <NavBar {...props} />
             <Footer {...props} />
           </div>
         </div>
 
-        <div className='fixed right-4 bottom-4 z-20'>
+        {/* 回到顶部按钮 */}
+        <div className="fixed right-4 bottom-4 z-20">
           <JumpToTopButton />
         </div>
 
