@@ -135,18 +135,34 @@ const LayoutIndex = props => {
     <div className='w-full h-full flex items-center justify-center'>
       {(() => {
         const rawSubPath = siteConfig('SUB_PATH', '') || ''
-        const normalizedSubPath = (typeof rawSubPath === 'string'
-          ? rawSubPath
-          : ''
-        ).replace(/^\/+/g, '').replace(/\/+$/g, '')
+        const isAbsoluteUrl =
+          typeof rawSubPath === 'string' && /:\/\//.test(rawSubPath)
+        const normalizedSubPath = isAbsoluteUrl
+          ? ''
+          : (typeof rawSubPath === 'string' ? rawSubPath : '')
+              .replace(/^\/+/g, '')
+              .replace(/\/+$/g, '')
         const basePath = normalizedSubPath ? `/${normalizedSubPath}` : ''
-        const heroWebp = `${basePath}/images/homepage.webp`
-        const heroJpg = `${basePath}/images/homepage.jpg`
+        const version = siteConfig('VERSION', '') || ''
+        const versionQuery = version ? `?v=${version}` : ''
+        const heroJpg = `${basePath}/images/homepage.jpg${versionQuery}`
         return (
-          <picture>
-            <source srcSet={heroWebp} type='image/webp' />
-            <img src={heroJpg} alt='homepage' className='object-contain max-h-[80vh] w-auto' />
-          </picture>
+          <img
+            src={heroJpg}
+            alt='homepage'
+            className='object-contain max-h-[80vh] w-auto'
+            onError={e => {
+              const img = e.currentTarget
+              const attempt = img.dataset.attempt || '0'
+              if (attempt === '0') {
+                img.dataset.attempt = '1'
+                img.src = `/images/homepage.jpg?ts=${Date.now()}`
+              } else if (attempt === '1') {
+                img.dataset.attempt = '2'
+                img.src = `/images/homepage.webp?ts=${Date.now()}`
+              }
+            }}
+          />
         )
       })()}
     </div>
