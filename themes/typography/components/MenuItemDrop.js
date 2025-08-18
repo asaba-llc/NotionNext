@@ -12,7 +12,7 @@ export const MenuItemDrop = ({ link }) => {
   if (!link || !link.show) {
     return null
   }
-  const selected = router.pathname === link.href || router.asPath === link.href
+  // 去除选中时的绿色背景高亮
 
 
   return (
@@ -33,12 +33,7 @@ export const MenuItemDrop = ({ link }) => {
           <div
             onMouseOver={() => changeShow(true)}
             onMouseOut={() => changeShow(false)}
-            className={
-              'relative ' +
-              (selected
-                ? 'bg-green-600 text-white hover:text-white'
-                : 'hover:text-green-600')
-            }>
+            className={'relative hover:text-green-600'}>
             <div>
               <span className='dark:hover:text-[var(--primary-color)] dark:hover:bg-white menu-link underline decoration-2 hover:no-underline hover:bg-[#2E405B] hover:text-white text-[var(--primary-color)]  dark:text-gray-200 tracking-widest pb-1 font-bold'>
                 {link?.icon && <i className={link?.icon} />} {link?.name}
