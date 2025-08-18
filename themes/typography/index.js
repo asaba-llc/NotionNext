@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useGlobal } from '@/lib/global'
@@ -29,11 +29,24 @@ const LayoutBase = props => {
   const [imageTop, setImageTop] = useState(0)
   const searchModal = useRef(null)
 
-  // 首页图片顶部与标题顶部对齐
+  // 首页图片顶部与标题顶部始终对齐
   useEffect(() => {
-    if (isHome && titleRef.current) {
-      const rect = titleRef.current.getBoundingClientRect()
-      setImageTop(rect.top)
+    if (!isHome) return
+
+    const updateImageTop = () => {
+      if (titleRef.current) {
+        const rect = titleRef.current.getBoundingClientRect()
+        setImageTop(rect.top + window.scrollY) // 加上滚动偏移
+      }
+    }
+
+    updateImageTop() // 初始计算
+    window.addEventListener('scroll', updateImageTop)
+    window.addEventListener('resize', updateImageTop)
+
+    return () => {
+      window.removeEventListener('scroll', updateImageTop)
+      window.removeEventListener('resize', updateImageTop)
     }
   }, [isHome])
 
