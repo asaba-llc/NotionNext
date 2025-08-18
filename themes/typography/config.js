@@ -13,8 +13,8 @@ const CONFIG = {
   TYPOGRAPHY_MENU_CATEGORY: true, // 显示分类
   TYPOGRAPHY_MENU_TAG: true, // 显示标签
   TYPOGRAPHY_MENU_ARCHIVE: true, // 显示归档
-  CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'ri@asaba.llc', // 邮箱地址 例如mail@tangly1024.com
   CONTACT_IDCARD: process.env.NEXT_PUBLIC_CONTACT_IDCARD || 'https://meishi.mybridge.com/754fLxacBDPTzsvI?channel=url&openExternalBrowser=1', //名片显示
   CONTACT_WEIBO: process.env.NEXT_PUBLIC_CONTACT_WEIBO || 'https://meishi.mybridge.com/754fLxacBDPTzsvI?channel=url&openExternalBrowser=1', // 你的微博个人主页
+  CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'ri@asaba.llc', // 邮箱地址 例如mail@tangly1024.com
 }
 export default CONFIG
