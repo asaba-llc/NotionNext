@@ -75,14 +75,14 @@ const LayoutBase = props => {
         <div className='flex flex-1 mx-auto overflow-hidden py-8 md:p-0 md:max-w-7xl md:px-24 w-screen'>
          {/* 主体 - 使用 flex 布局 */}
          {/* 左侧固定照片 */}
-         <div className='mt-20 hidden md:block md:fixed md:left-5 md:w-[300px]'>
+        <div className="w-full">
           <Image
            src="/images/left-photo.jpg"   // 照片路径，放在 public/images/ 下
            alt="浅羽合同会社"
            width={0}  // 自动
            height={0} // 自动
            sizes="100vw"
-           className="h-auto w-auto"
+           className="w-full h-auto object-contain"
           />
          </div>
           <div className='overflow-hidden md:mt-20 flex-1 '>
