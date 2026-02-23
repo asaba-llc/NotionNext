@@ -1,7 +1,7 @@
 const CONFIG = {
   // 博客標題 雙語言
-  TYPOGRAPHY_BLOG_NAME: process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME || '浅羽合同会社',
-  TYPOGRAPHY_BLOG_NAME_EN: process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME_EN || process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME || 'ASABA LLC',
+  TYPOGRAPHY_BLOG_NAME: process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME || '活字印刷',
+  TYPOGRAPHY_BLOG_NAME_EN: process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME_EN || process.env.NEXT_PUBLIC_TYPOGRAPHY_BLOG_NAME || 'Typography',
 
   TYPOGRAPHY_POST_AD_ENABLE: process.env.NEXT_PUBLIC_TYPOGRAPHY_POST_AD_ENABLE || false, // 文章列表是否插入广告
 
@@ -13,7 +13,5 @@ const CONFIG = {
   TYPOGRAPHY_MENU_CATEGORY: true, // 显示分类
   TYPOGRAPHY_MENU_TAG: true, // 显示标签
   TYPOGRAPHY_MENU_ARCHIVE: true, // 显示归档
-  CONTACT_IDCARD: process.env.NEXT_PUBLIC_CONTACT_IDCARD || 'https://meishi.mybridge.com/754fLxacBDPTzsvI?channel=url&openExternalBrowser=1', //名片显示
-  CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@asaba.llc', // 邮箱地址 例如mail@tangly1024.com
 }
 export default CONFIG

@@ -108,15 +108,6 @@ const SocialButton = () => {
             <i className='fab fa-threads transform hover:scale-125 duration-150' />
           </a>
         )}
-        {siteConfig('CONTACT_IDCARD') && (
-          <a
-            target='_blank'
-            rel='noreferrer'
-            title={'threads'}
-            href={siteConfig('CONTACT_IDCARD')}>
-            <i className='fa-regular fa-address-card hover:scale-125 duration-150' />
-          </a>
-        )} 
       </div>
     </div>
   )

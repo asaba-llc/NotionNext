@@ -130,43 +130,7 @@ const LayoutBase = props => {
  * @returns
  */
 const LayoutIndex = props => {
-  // 首页改为展示固定图片，右侧公司信息与菜单保持不变
-  return (
-    <div className='w-full min-h-[calc(100vh-9rem)] flex items-center justify-center'>
-      {(() => {
-        const rawSubPath = siteConfig('SUB_PATH', '') || ''
-        const isAbsoluteUrl =
-          typeof rawSubPath === 'string' && /:\/\//.test(rawSubPath)
-        const normalizedSubPath = isAbsoluteUrl
-          ? ''
-          : (typeof rawSubPath === 'string' ? rawSubPath : '')
-              .replace(/^\/+/g, '')
-              .replace(/\/+$/g, '')
-        const basePath = normalizedSubPath ? `/${normalizedSubPath}` : ''
-        const version = siteConfig('VERSION', '') || ''
-        const versionQuery = version ? `?v=${version}` : ''
-        const heroJpg = `${basePath}/images/homepage.jpg${versionQuery}`
-        return (
-          <img
-            src={heroJpg}
-            alt='homepage'
-            className='object-contain max-h-[80vh] w-auto'
-            onError={e => {
-              const img = e.currentTarget
-              const attempt = img.dataset.attempt || '0'
-              if (attempt === '0') {
-                img.dataset.attempt = '1'
-                img.src = `/images/homepage.jpg?ts=${Date.now()}`
-              } else if (attempt === '1') {
-                img.dataset.attempt = '2'
-                img.src = `/images/homepage.webp?ts=${Date.now()}`
-              }
-            }}
-          />
-        )
-      })()}
-    </div>
-  )
+  return <LayoutPostList {...props} />
 }
 /**
  * 博客列表
